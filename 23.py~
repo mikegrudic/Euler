@@ -1,0 +1,19 @@
+from sympy import divisors
+import numpy as np
+
+abundants = []
+
+for i in xrange(1,28124):
+    if np.sum(divisors(i)[:-1])>i:
+        abundants.append(i)
+
+abundants = np.array(abundants,dtype = np.int32)
+
+sums = np.add.outer(abundants,abundants)
+sums = sums[sums<=28124]
+sums = np.unique(sums)
+print sums.shape
+
+s = 0
+for i in xrange(1,28124):
+    if i not in sums: s+=i

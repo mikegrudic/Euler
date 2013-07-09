@@ -1,0 +1,27 @@
+from sympy.ntheory import divisors
+
+def MultiOrder(n):
+    div = divisors(n)
+    if list(set(div).intersection((2,5,10))) != []:
+        return None
+    order=1
+    product = 10
+    while product != 1:
+        order+=1
+        product = (product*10)%n
+    return order
+
+maxNum = 1
+maxOrder = 1
+
+#print MultiOrder(3)
+for i in xrange(3,1000):
+#    print i
+    order = MultiOrder(i)
+    print i, order
+#    if order> maxOrder: 
+#        maxOrder = order
+#        maxNum = i
+
+
+#print maxNum

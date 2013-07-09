@@ -1,0 +1,4 @@
+from PermuteString import PermuteString
+
+perms = PermuteString("0123456789")
+print len(perms)

@@ -1,0 +1,7 @@
+
+def MultiOrder(n):
+    order=0
+    while n%10>0:
+        order+=1
+        n = n%10
+    return order

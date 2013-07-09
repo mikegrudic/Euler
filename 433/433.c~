@@ -1,0 +1,25 @@
+#include "stdio.h"
+
+float E(float x, float y){
+    float count = 0;
+    float temp;
+    while (y!=0){
+	temp = x;
+	x = y;
+	y = temp%y;
+	count++;
+    }
+    return count;
+}
+
+float main(){
+    float x,y;
+    float sum = 0;
+    for(x = 1; x <= 5000000; x+=1.0){
+	printf("%f\n",x);
+	for (y = 1; y <= 5000000; y+=1.0){
+	    sum += E(x,y);
+	}
+    }
+    return 0;
+}
