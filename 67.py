@@ -1,51 +1,33 @@
-#!/usr/bin/env python                                                                                                                                
-import sys, os, traceback, numpy, scipy,random
-from optparse import OptionParser
-from subprocess import call
+#import numpy as np
+import math
+import time
 
-usage="""                                                                                                                                           """
+t = time.time()
+class Node:
+    def __init__(self,value):
+        self.l1 = None
+        self.l2 = None
+        self.value = value
+    def MaxSum(self):
+        if self.l1 == None:
+            self.maxsum = self.value
+        else:
+            self.maxsum =  max(self.l1.maxsum,self.l2.maxsum) + self.value
 
-def error(msg):
-    os.sys.stderr.write("############# ERROR n#############\n");
-    os.sys.stderr.write(msg+"\n")
-    os.sys.exit(-1)
+f=open('triangle.txt', 'r')
+nums = f.read().split()
+nums = [int(num) for num in nums]
 
-# Display a verbose error message & backtrace                                                                                                        
-def croak(msg):
-    os.sys.stderr.write("############# CROAK #############\n");
-    os.sys.stderr.write(msg+"\n")
-    traceback.print_stack()
-    os.sys.exit(-1)
+nodes = [Node(num) for num in nums]
 
-# Subroutine to safely run a system bash command                                                                                                     
-def System(cmd):
-    status = call(cmd, shell=True, executable='/bin/bash')
-    if status != 0:
-      croak("This command failed with return status "+str(status)+": "+cmd)
+nmax = int(-0.5 + math.sqrt(0.25 + 4*0.5*len(nums)) + 0.5)
+for i, node in enumerate(nodes):
+    n = int(math.ceil(-0.5 + math.sqrt(0.25 + 4*0.5*(i+1)))+0.5)
+    if n < nmax:
+        node.l1, node.l2 = nodes[i+n], nodes[i+n+1]
 
-########################################################################################
-
-def pathsum(path,numbers):
-    Sum=numbers[0][0]
-    j=0
-    for i in xrange(1,len(numbers)):
-        j+=path[i]
-        Sum+=numbers[i][j]
+for i in xrange(len(nodes)-1,-1,-1):
+    nodes[i].MaxSum()
     
-    return Sum
-
-f=open("triangle.txt","r")
-
-text=f.readlines()
-
-f.close()
-
-numbers=numpy.zeros((len(text),len(text)),dtype=int)
-
-for i in xrange(len(text)):
-    for j in xrange(i+1):
-        numbers[i][j]=numpy.fromstring(text[i],dtype=int,sep=' ')[j]
-
-path=numpy.zeros(len(numbers),dtype=int)
-
-triSum=numbers[
+print nodes[0].maxsum
+print time.time()-t
